@@ -197,7 +197,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
             </>
           ) : (
             <>
-              <span>Interview-Tool</span>
+              <span>Interview</span>
               {sessions.length > 0 && (
                 <span className="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
                   {sessions.length}
@@ -231,7 +231,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   </div>
                 </>
               ) : (
-                <div className="text-sm font-bold text-slate-900">Interview-Dev-Tool</div>
+                <div className="text-sm font-bold text-slate-900">interview-me</div>
               )}
             </div>
 
@@ -445,11 +445,6 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     placeholder="e.g. Appointment Booking Flow"
                     className="w-full px-2.5 py-2 rounded-md border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
-                </div>
-
-                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px] text-slate-500 leading-relaxed">
-                  <strong>Local-First & Privacy:</strong> Data is stored entirely inside your browser.
-                  Clicks and route changes are logged automatically.
                 </div>
 
                 <button

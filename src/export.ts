@@ -57,7 +57,7 @@ export function exportToMarkdown(session: InterviewSession): string {
 
   lines.push(`# Interview Session: ${session.title}`);
   lines.push("");
-  lines.push(`> Exported from **Interview-Dev-Tool** on ${new Date().toLocaleString("en-US")}`);
+  lines.push(`> Exported from **User Interview** on ${new Date().toLocaleString("en-US")}`);
   lines.push("");
 
   // Metadata Table
