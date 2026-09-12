@@ -1,6 +1,6 @@
-# @paullotz/interview-me
+# interview-me
 
-> **Local-First User Interview Dev Tool & Handoff Generator for Next.js**
+> **Local-First User Interview Tool & Instruction Generator**
 
 Capture real behavioral insights from user interviews inside your Next.js application without voice recordings, external tracking services, or complex backends. All data stays 100% private in the browser (IndexedDB / localStorage) and exports directly to structured Markdown and JSON for developers and AI agents.
 
@@ -62,6 +62,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ```
 
 That's it! In development mode (`npm run dev`), a floating widget will appear at the bottom-right corner.
+
+### Tailwind CSS Setup
+
+The UI is styled with Tailwind CSS utility classes. Ensure your app's Tailwind configuration includes `@paullotz/interview-me`:
+
+**Tailwind v4** (`globals.css`):
+```css
+@import "tailwindcss";
+@source "node_modules/@paullotz/interview-me/src";
+/* or in a monorepo workspace: */
+@source "../../../packages/interview-me/src";
+```
+
+**Tailwind v3** (`tailwind.config.js`):
+```js
+module.exports = {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@paullotz/interview-me/src/**/*.{js,ts,jsx,tsx}",
+  ],
+};
+```
 
 ---
 

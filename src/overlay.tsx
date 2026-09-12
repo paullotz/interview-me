@@ -19,36 +19,39 @@ export interface InterviewOverlayProps {
   position?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
 }
 
-const TAG_CONFIG: Record<NoteTag, { label: string; bg: string; color: string; border: string }> = {
+const TAG_CONFIG: Record<
+  NoteTag,
+  { label: string; activeClass: string; inactiveClass: string; badgeClass: string }
+> = {
   confusion: {
     label: "Confusion",
-    bg: "#fef3c7",
-    color: "#92400e",
-    border: "#fcd34d",
+    activeClass: "bg-amber-600 text-white border-amber-600",
+    inactiveClass: "bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100",
+    badgeClass: "bg-amber-100 text-amber-900",
   },
   bug: {
     label: "Bug",
-    bg: "#fee2e2",
-    color: "#991b1b",
-    border: "#fca5a5",
+    activeClass: "bg-red-600 text-white border-red-600",
+    inactiveClass: "bg-red-50 text-red-900 border-red-200 hover:bg-red-100",
+    badgeClass: "bg-red-100 text-red-900",
   },
   idea: {
     label: "Idea",
-    bg: "#ecfdf5",
-    color: "#065f46",
-    border: "#6ee7b7",
+    activeClass: "bg-emerald-600 text-white border-emerald-600",
+    inactiveClass: "bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100",
+    badgeClass: "bg-emerald-100 text-emerald-900",
   },
   quote: {
     label: "Quote",
-    bg: "#f3e8ff",
-    color: "#6b21a8",
-    border: "#d8b4fe",
+    activeClass: "bg-purple-600 text-white border-purple-600",
+    inactiveClass: "bg-purple-50 text-purple-900 border-purple-200 hover:bg-purple-100",
+    badgeClass: "bg-purple-100 text-purple-900",
   },
   general: {
     label: "Note",
-    bg: "#f1f5f9",
-    color: "#334155",
-    border: "#cbd5e1",
+    activeClass: "bg-slate-700 text-white border-slate-700",
+    inactiveClass: "bg-slate-100 text-slate-800 border-slate-300 hover:bg-slate-200",
+    badgeClass: "bg-slate-100 text-slate-800",
   },
 };
 
@@ -97,18 +100,18 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
     return isDev || hasQuery || hasStorage;
   }, [enabled]);
 
-  // Position CSS mapping
-  const positionStyle: React.CSSProperties = useMemo(() => {
+  // Position class mapping
+  const positionClass = useMemo(() => {
     switch (position) {
       case "bottom-left":
-        return { bottom: "20px", left: "20px" };
+        return "bottom-5 left-5";
       case "top-right":
-        return { top: "20px", right: "20px" };
+        return "top-5 right-5";
       case "top-left":
-        return { top: "20px", left: "20px" };
+        return "top-5 left-5";
       case "bottom-right":
       default:
-        return { bottom: "20px", right: "20px" };
+        return "bottom-5 right-5";
     }
   }, [position]);
 
@@ -155,59 +158,23 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
   return (
     <div
       data-interview-ui="true"
-      className="interview-me-root"
-      style={{
-        position: "fixed",
-        zIndex: 999999,
-        fontFamily:
-          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-        fontSize: "13px",
-        color: "#1e293b",
-        ...positionStyle,
-      }}
+      className={`interview-me-root fixed z-[999999] font-sans text-xs text-slate-800 antialiased ${positionClass}`}
     >
       {/* Minimized Floating Pill */}
       {!isExpanded && (
         <button
           type="button"
           onClick={() => setIsExpanded(true)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "8px 14px",
-            borderRadius: "9999px",
-            backgroundColor: isRecording ? "#dc2626" : "#0f172a",
-            color: "#ffffff",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.2)",
-            cursor: "pointer",
-            fontWeight: 600,
-            fontSize: "13px",
-            transition: "all 0.2s ease",
-          }}
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-full font-semibold text-white shadow-xl transition-all duration-200 border border-white/20 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${
+            isRecording ? "bg-red-600 hover:bg-red-700" : "bg-slate-900 hover:bg-slate-800"
+          }`}
         >
           {isRecording ? (
             <>
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  backgroundColor: "#ffffff",
-                  animation: "interview-pulse 1.2s infinite ease-in-out",
-                }}
-              />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span>REC {formatDuration(elapsedMs)}</span>
               {session && (
-                <span
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    padding: "2px 7px",
-                    borderRadius: "9999px",
-                    fontSize: "11px",
-                  }}
-                >
+                <span className="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
                   {session.notes.length} notes
                 </span>
               )}
@@ -216,14 +183,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
             <>
               <span>Interview-Tool</span>
               {sessions.length > 0 && (
-                <span
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    padding: "2px 6px",
-                    borderRadius: "9999px",
-                    fontSize: "11px",
-                  }}
-                >
+                <span className="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
                   {sessions.length}
                 </span>
               )}
@@ -234,85 +194,37 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
       {/* Expanded Dialog / Panel */}
       {isExpanded && (
-        <div
-          style={{
-            width: "380px",
-            maxHeight: "85vh",
-            backgroundColor: "#ffffff",
-            borderRadius: "16px",
-            border: "1px solid #e2e8f0",
-            boxShadow:
-              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0,0,0,0.1)",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}
-        >
+        <div className="w-[380px] max-h-[85vh] bg-white rounded-2xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden text-xs">
           {/* Header */}
           <div
-            style={{
-              padding: "12px 16px",
-              borderBottom: "1px solid #e2e8f0",
-              backgroundColor: isRecording ? "#fef2f2" : "#f8fafc",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
+            className={`px-4 py-3 border-b flex items-center justify-between ${
+              isRecording ? "bg-red-50/70 border-red-100" : "bg-slate-50 border-slate-200"
+            }`}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div className="flex items-center gap-2 min-w-0">
               {isRecording ? (
                 <>
-                  <span
-                    style={{
-                      width: "10px",
-                      height: "10px",
-                      borderRadius: "50%",
-                      backgroundColor: "#dc2626",
-                      animation: "interview-pulse 1.2s infinite ease-in-out",
-                    }}
-                  />
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: "13px", color: "#991b1b" }}>
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-red-900 tracking-wide">
                       RECORDING ACTIVE ({formatDuration(elapsedMs)})
                     </div>
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        color: "#7f1d1d",
-                        maxWidth: "200px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
+                    <div className="text-[11px] text-red-700 truncate max-w-[220px]">
                       {session?.title}
                     </div>
                   </div>
                 </>
               ) : (
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span style={{ fontWeight: 700, fontSize: "14px", color: "#0f172a" }}>
-                    Interview-Dev-Tool
-                  </span>
-                </div>
+                <div className="text-sm font-bold text-slate-900">Interview-Dev-Tool</div>
               )}
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => setIsExpanded(false)}
                 title="Minimize"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "#64748b",
-                  padding: "4px 8px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                }}
+                className="text-slate-400 hover:text-slate-700 px-2 py-0.5 rounded hover:bg-black/5 font-bold text-sm transition-colors cursor-pointer"
               >
                 _
               </button>
@@ -321,30 +233,18 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
           {/* Tab Navigation if not currently in active recording */}
           {!isRecording && (
-            <div
-              style={{
-                display: "flex",
-                borderBottom: "1px solid #e2e8f0",
-                backgroundColor: "#f1f5f9",
-              }}
-            >
+            <div className="flex border-b border-slate-200 bg-slate-100">
               <button
                 type="button"
                 onClick={() => {
                   setActiveTab("record");
                   setSelectedSessionForView(null);
                 }}
-                style={{
-                  flex: 1,
-                  padding: "8px 12px",
-                  border: "none",
-                  borderBottom: activeTab === "record" ? "2px solid #2563eb" : "2px solid transparent",
-                  backgroundColor: activeTab === "record" ? "#ffffff" : "transparent",
-                  color: activeTab === "record" ? "#2563eb" : "#64748b",
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  cursor: "pointer",
-                }}
+                className={`flex-1 py-2 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
+                  activeTab === "record"
+                    ? "bg-white text-blue-600 border-blue-600"
+                    : "text-slate-500 hover:text-slate-900 border-transparent bg-transparent"
+                }`}
               >
                 + New Session
               </button>
@@ -354,17 +254,11 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   setActiveTab("history");
                   loadSessions();
                 }}
-                style={{
-                  flex: 1,
-                  padding: "8px 12px",
-                  border: "none",
-                  borderBottom: activeTab === "history" ? "2px solid #2563eb" : "2px solid transparent",
-                  backgroundColor: activeTab === "history" ? "#ffffff" : "transparent",
-                  color: activeTab === "history" ? "#2563eb" : "#64748b",
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  cursor: "pointer",
-                }}
+                className={`flex-1 py-2 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
+                  activeTab === "history"
+                    ? "bg-white text-blue-600 border-blue-600"
+                    : "text-slate-500 hover:text-slate-900 border-transparent bg-transparent"
+                }`}
               >
                 Saved Sessions ({sessions.length})
               </button>
@@ -372,32 +266,23 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
           )}
 
           {/* Body Content */}
-          <div style={{ padding: "16px", overflowY: "auto", flex: 1 }}>
+          <div className="p-4 overflow-y-auto flex-1">
             {/* RECORDING MODE */}
             {isRecording && session && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div className="flex flex-col gap-3.5">
                 {/* Note composer */}
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    <label style={{ fontWeight: 600, fontSize: "12px", color: "#334155" }}>
-                      Add quick note:
-                    </label>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label className="font-semibold text-xs text-slate-700">Add quick note:</label>
                     {noteSuccessToast && (
-                      <span style={{ fontSize: "11px", color: "#16a34a", fontWeight: 600 }}>
+                      <span className="text-[11px] text-emerald-600 font-semibold">
                         Note saved
                       </span>
                     )}
                   </div>
 
                   {/* Tag Selector Chips */}
-                  <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", marginBottom: "8px" }}>
+                  <div className="flex gap-1 flex-wrap mb-2">
                     {(["confusion", "bug", "idea", "quote", "general"] as NoteTag[]).map((t) => {
                       const cfg = TAG_CONFIG[t];
                       const isSelected = selectedTag === t;
@@ -406,17 +291,9 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           key={t}
                           type="button"
                           onClick={() => setSelectedTag(t)}
-                          style={{
-                            padding: "3px 8px",
-                            borderRadius: "6px",
-                            fontSize: "11px",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            backgroundColor: isSelected ? cfg.color : cfg.bg,
-                            color: isSelected ? "#ffffff" : cfg.color,
-                            border: `1px solid ${cfg.border}`,
-                            transition: "all 0.15s ease",
-                          }}
+                          className={`px-2 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
+                            isSelected ? cfg.activeClass : cfg.inactiveClass
+                          }`}
                         >
                           {cfg.label}
                         </button>
@@ -430,37 +307,18 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     onKeyDown={handleKeyDownNote}
                     placeholder="What did you observe? (Press Enter to save)"
                     rows={3}
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      padding: "8px 10px",
-                      borderRadius: "8px",
-                      border: "1px solid #cbd5e1",
-                      fontSize: "12px",
-                      fontFamily: "inherit",
-                      resize: "none",
-                      outline: "none",
-                    }}
+                    className="w-full px-2.5 py-2 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 resize-none font-sans"
                   />
 
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "6px" }}>
-                    <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                  <div className="flex justify-between items-center mt-1.5">
+                    <span className="text-[11px] text-slate-400">
                       Tip: Enter = save, Shift+Enter = line break
                     </span>
                     <button
                       type="button"
                       onClick={() => handleAddNote()}
                       disabled={!noteContent.trim()}
-                      style={{
-                        padding: "5px 12px",
-                        borderRadius: "6px",
-                        backgroundColor: noteContent.trim() ? "#0f172a" : "#e2e8f0",
-                        color: noteContent.trim() ? "#ffffff" : "#94a3b8",
-                        border: "none",
-                        fontWeight: 600,
-                        fontSize: "12px",
-                        cursor: noteContent.trim() ? "pointer" : "default",
-                      }}
+                      className="px-3 py-1 rounded-md text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-slate-900 text-white hover:bg-slate-800 cursor-pointer"
                     >
                       + Note
                     </button>
@@ -468,89 +326,41 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                 </div>
 
                 {/* Live Stats */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "8px 12px",
-                    backgroundColor: "#f8fafc",
-                    borderRadius: "8px",
-                    border: "1px solid #e2e8f0",
-                    fontSize: "11px",
-                    color: "#475569",
-                  }}
-                >
+                <div className="flex justify-between px-3 py-2 bg-slate-50 rounded-lg border border-slate-200 text-[11px] text-slate-600 font-medium">
                   <div>
-                    Clicks & Routes: <strong>{session.events.length}</strong>
+                    Clicks & Routes: <strong className="text-slate-900">{session.events.length}</strong>
                   </div>
                   <div>
-                    Notes: <strong>{session.notes.length}</strong>
+                    Notes: <strong className="text-slate-900">{session.notes.length}</strong>
                   </div>
                 </div>
 
                 {/* Recent notes list in current session */}
                 {session.notes.length > 0 && (
                   <div>
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        fontSize: "11px",
-                        color: "#64748b",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                        marginBottom: "6px",
-                      }}
-                    >
+                    <div className="font-semibold text-[11px] text-slate-500 uppercase tracking-wider mb-1.5">
                       Current Notes ({session.notes.length})
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "6px",
-                        maxHeight: "160px",
-                        overflowY: "auto",
-                      }}
-                    >
+                    <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto">
                       {[...session.notes].reverse().map((n) => {
                         const tag = n.tag || "general";
                         const cfg = TAG_CONFIG[tag];
                         return (
                           <div
                             key={n.id}
-                            style={{
-                              padding: "6px 10px",
-                              borderRadius: "6px",
-                              backgroundColor: "#ffffff",
-                              border: "1px solid #e2e8f0",
-                              fontSize: "12px",
-                            }}
+                            className="p-2 rounded-md bg-white border border-slate-200 text-xs shadow-xs"
                           >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                marginBottom: "2px",
-                              }}
-                            >
+                            <div className="flex justify-between items-center mb-1">
                               <span
-                                style={{
-                                  padding: "1px 5px",
-                                  borderRadius: "4px",
-                                  fontSize: "10px",
-                                  fontWeight: 600,
-                                  backgroundColor: cfg.bg,
-                                  color: cfg.color,
-                                }}
+                                className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${cfg.badgeClass}`}
                               >
                                 {cfg.label}
                               </span>
-                              <span style={{ fontSize: "10px", color: "#94a3b8" }}>
+                              <span className="text-[10px] text-slate-400">
                                 {formatRelativeTime(session.startTime, n.timestamp)}
                               </span>
                             </div>
-                            <div style={{ color: "#1e293b", wordBreak: "break-word" }}>{n.content}</div>
+                            <div className="text-slate-800 break-words">{n.content}</div>
                           </div>
                         );
                       })}
@@ -559,21 +369,11 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                 )}
 
                 {/* Finish & Pause Actions */}
-                <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                <div className="flex gap-2 mt-1">
                   <button
                     type="button"
                     onClick={handleFinish}
-                    style={{
-                      flex: 2,
-                      padding: "9px 14px",
-                      borderRadius: "8px",
-                      backgroundColor: "#dc2626",
-                      color: "#ffffff",
-                      border: "none",
-                      fontWeight: 600,
-                      fontSize: "13px",
-                      cursor: "pointer",
-                    }}
+                    className="flex-[2] py-2.5 px-3.5 rounded-lg bg-red-600 text-white text-xs font-semibold hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer shadow-xs"
                   >
                     Finish & Export Session
                   </button>
@@ -581,17 +381,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   <button
                     type="button"
                     onClick={() => (isPaused ? resumeSession() : pauseSession())}
-                    style={{
-                      flex: 1,
-                      padding: "9px 10px",
-                      borderRadius: "8px",
-                      backgroundColor: "#f1f5f9",
-                      color: "#334155",
-                      border: "1px solid #cbd5e1",
-                      fontWeight: 600,
-                      fontSize: "12px",
-                      cursor: "pointer",
-                    }}
+                    className="flex-1 py-2.5 px-2.5 rounded-lg bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold hover:bg-slate-200 transition-colors cursor-pointer"
                   >
                     {isPaused ? "Resume" : "Pause"}
                   </button>
@@ -601,9 +391,9 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
             {/* START SESSION FORM */}
             {!isRecording && activeTab === "record" && (
-              <form onSubmit={handleStart} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <form onSubmit={handleStart} className="flex flex-col gap-3">
                 <div>
-                  <label style={{ display: "block", fontWeight: 600, fontSize: "12px", marginBottom: "4px" }}>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Session Title (optional)
                   </label>
                   <input
@@ -611,20 +401,12 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     value={startTitle}
                     onChange={(e) => setStartTitle(e.target.value)}
                     placeholder="e.g. Checkout flow usability test"
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      padding: "8px 10px",
-                      borderRadius: "6px",
-                      border: "1px solid #cbd5e1",
-                      fontSize: "12px",
-                      outline: "none",
-                    }}
+                    className="w-full px-2.5 py-2 rounded-md border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", fontWeight: 600, fontSize: "12px", marginBottom: "4px" }}>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     User / Pseudonym (optional)
                   </label>
                   <input
@@ -632,20 +414,12 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     value={startUser}
                     onChange={(e) => setStartUser(e.target.value)}
                     placeholder="e.g. Dr. Miller / Clinic Assistant"
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      padding: "8px 10px",
-                      borderRadius: "6px",
-                      border: "1px solid #cbd5e1",
-                      fontSize: "12px",
-                      outline: "none",
-                    }}
+                    className="w-full px-2.5 py-2 rounded-md border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", fontWeight: 600, fontSize: "12px", marginBottom: "4px" }}>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Feature / Flow (optional)
                   </label>
                   <input
@@ -653,49 +427,18 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     value={startFeature}
                     onChange={(e) => setStartFeature(e.target.value)}
                     placeholder="e.g. Appointment Booking Flow"
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      padding: "8px 10px",
-                      borderRadius: "6px",
-                      border: "1px solid #cbd5e1",
-                      fontSize: "12px",
-                      outline: "none",
-                    }}
+                    className="w-full px-2.5 py-2 rounded-md border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                   />
                 </div>
 
-                <div
-                  style={{
-                    backgroundColor: "#f8fafc",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    border: "1px solid #e2e8f0",
-                    fontSize: "11px",
-                    color: "#64748b",
-                    lineHeight: "1.4",
-                  }}
-                >
+                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px] text-slate-500 leading-relaxed">
                   <strong>Local-First & Privacy:</strong> Data is stored entirely inside your browser.
                   Clicks and route changes are logged automatically.
                 </div>
 
                 <button
                   type="submit"
-                  style={{
-                    marginTop: "4px",
-                    padding: "10px 16px",
-                    borderRadius: "8px",
-                    backgroundColor: "#2563eb",
-                    color: "#ffffff",
-                    border: "none",
-                    fontWeight: 600,
-                    fontSize: "13px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  className="mt-1 w-full py-2.5 px-4 rounded-lg bg-blue-600 text-white font-semibold text-xs hover:bg-blue-700 active:bg-blue-800 transition-colors cursor-pointer shadow-xs"
                 >
                   Start Interview Session
                 </button>
@@ -707,20 +450,12 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
               <div>
                 {selectedSessionForView ? (
                   /* Detail inspection view */
-                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-between items-center">
                       <button
                         type="button"
                         onClick={() => setSelectedSessionForView(null)}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          color: "#2563eb",
-                          cursor: "pointer",
-                          fontWeight: 600,
-                          fontSize: "12px",
-                          padding: 0,
-                        }}
+                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
                       >
                         Back to list
                       </button>
@@ -732,23 +467,17 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                             setSelectedSessionForView(null);
                           }
                         }}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          color: "#dc2626",
-                          cursor: "pointer",
-                          fontSize: "11px",
-                        }}
+                        className="text-[11px] font-medium text-red-600 hover:text-red-800 transition-colors cursor-pointer"
                       >
                         Delete
                       </button>
                     </div>
 
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: "14px", color: "#0f172a" }}>
+                      <div className="font-bold text-sm text-slate-900">
                         {selectedSessionForView.title}
                       </div>
-                      <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                      <div className="text-[11px] text-slate-500 mt-0.5">
                         {new Date(selectedSessionForView.startTime).toLocaleString("en-US")} • Duration:{" "}
                         {formatDuration(
                           (selectedSessionForView.endTime ?? selectedSessionForView.startTime) -
@@ -758,7 +487,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     </div>
 
                     {/* Export buttons */}
-                    <div style={{ display: "flex", gap: "8px" }}>
+                    <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => {
@@ -769,17 +498,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                             "text/markdown"
                           );
                         }}
-                        style={{
-                          flex: 1,
-                          padding: "8px 10px",
-                          borderRadius: "6px",
-                          backgroundColor: "#0f172a",
-                          color: "#ffffff",
-                          border: "none",
-                          fontWeight: 600,
-                          fontSize: "12px",
-                          cursor: "pointer",
-                        }}
+                        className="flex-1 py-2 px-2.5 rounded-md bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer text-center shadow-xs"
                       >
                         Export Markdown (.md)
                       </button>
@@ -793,17 +512,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                             "application/json"
                           );
                         }}
-                        style={{
-                          flex: 1,
-                          padding: "8px 10px",
-                          borderRadius: "6px",
-                          backgroundColor: "#f1f5f9",
-                          color: "#334155",
-                          border: "1px solid #cbd5e1",
-                          fontWeight: 600,
-                          fontSize: "12px",
-                          cursor: "pointer",
-                        }}
+                        className="flex-1 py-2 px-2.5 rounded-md bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold hover:bg-slate-200 transition-colors cursor-pointer text-center"
                       >
                         Export JSON (.json)
                       </button>
@@ -811,49 +520,26 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
                     {/* Notes in this session */}
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: "12px", marginBottom: "6px" }}>
+                      <div className="font-semibold text-xs mb-1.5">
                         Notes ({selectedSessionForView.notes.length})
                       </div>
                       {selectedSessionForView.notes.length === 0 ? (
-                        <div style={{ fontSize: "12px", color: "#94a3b8" }}>No notes recorded.</div>
+                        <div className="text-xs text-slate-400">No notes recorded.</div>
                       ) : (
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "6px",
-                            maxHeight: "180px",
-                            overflowY: "auto",
-                          }}
-                        >
+                        <div className="flex flex-col gap-1.5 max-h-44 overflow-y-auto">
                           {selectedSessionForView.notes.map((n) => {
                             const cfg = TAG_CONFIG[n.tag || "general"];
                             return (
                               <div
                                 key={n.id}
-                                style={{
-                                  padding: "6px 8px",
-                                  backgroundColor: "#f8fafc",
-                                  border: "1px solid #e2e8f0",
-                                  borderRadius: "6px",
-                                  fontSize: "12px",
-                                }}
+                                className="p-2 bg-slate-50 border border-slate-200 rounded-md text-xs shadow-xs"
                               >
                                 <span
-                                  style={{
-                                    display: "inline-block",
-                                    padding: "1px 5px",
-                                    borderRadius: "4px",
-                                    fontSize: "10px",
-                                    fontWeight: 600,
-                                    backgroundColor: cfg.bg,
-                                    color: cfg.color,
-                                    marginRight: "6px",
-                                  }}
+                                  className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold mr-1.5 ${cfg.badgeClass}`}
                                 >
                                   {cfg.label}
                                 </span>
-                                <span>{n.content}</span>
+                                <span className="text-slate-800">{n.content}</span>
                               </div>
                             );
                           })}
@@ -862,7 +548,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     </div>
 
                     {/* Events count */}
-                    <div style={{ fontSize: "11px", color: "#64748b" }}>
+                    <div className="text-[11px] text-slate-500">
                       Captured interactions: {selectedSessionForView.events.length} events (routes & clicks).
                     </div>
                   </div>
@@ -870,44 +556,27 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   /* Session list view */
                   <div>
                     {sessions.length === 0 ? (
-                      <div
-                        style={{
-                          textAlign: "center",
-                          padding: "24px 12px",
-                          color: "#94a3b8",
-                          fontSize: "12px",
-                        }}
-                      >
+                      <div className="text-center py-6 px-3 text-slate-400 text-xs">
                         No interviews saved yet. Start a session to record clicks and notes!
                       </div>
                     ) : (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <div className="flex flex-col gap-2">
                         {sessions.map((s) => (
                           <div
                             key={s.id}
-                            style={{
-                              padding: "10px 12px",
-                              borderRadius: "8px",
-                              border: "1px solid #e2e8f0",
-                              backgroundColor: "#ffffff",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              cursor: "pointer",
-                              transition: "background 0.15s ease",
-                            }}
+                            className="p-3 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex justify-between items-center cursor-pointer transition-colors shadow-xs"
                             onClick={() => setSelectedSessionForView(s)}
                           >
                             <div>
-                              <div style={{ fontWeight: 600, fontSize: "12px", color: "#0f172a" }}>
+                              <div className="font-semibold text-xs text-slate-900">
                                 {s.title}
                               </div>
-                              <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                              <div className="text-[11px] text-slate-500 mt-0.5">
                                 {new Date(s.startTime).toLocaleDateString("en-US")} • {s.notes.length} notes •{" "}
                                 {s.events.length} events
                               </div>
                             </div>
-                            <span style={{ fontSize: "12px", color: "#2563eb", fontWeight: 600 }}>Open</span>
+                            <span className="text-xs text-blue-600 font-semibold">Open</span>
                           </div>
                         ))}
                       </div>
@@ -919,14 +588,6 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
           </div>
         </div>
       )}
-
-      {/* Embedded keyframe style for recording dot pulse */}
-      <style>{`
-        @keyframes interview-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(0.85); }
-        }
-      `}</style>
     </div>
   );
 }
