@@ -61,7 +61,7 @@ export function exportToMarkdown(session: InterviewSession): string {
   lines.push("");
 
   // Metadata Table
-  lines.push("## 📋 Session-Metadaten");
+  lines.push("## Session-Metadaten");
   lines.push("");
   lines.push("| Parameter | Wert |");
   lines.push("| :--- | :--- |");
@@ -74,26 +74,26 @@ export function exportToMarkdown(session: InterviewSession): string {
   lines.push("");
 
   // Tag distribution summary
-  lines.push("### 🏷️ Insights-Übersicht");
+  lines.push("### Insights-Übersicht");
   lines.push("");
   lines.push(
-    `- ❓ **Verwirrung / Confusion**: ${tagCounts.confusion}` +
-      `\n- 🐛 **Bugs**: ${tagCounts.bug}` +
-      `\n- 💡 **Ideen / Feature Requests**: ${tagCounts.idea}` +
-      `\n- 💬 **Nutzerzitate (Quotes)**: ${tagCounts.quote}` +
-      `\n- 📝 **Allgemeine Notizen**: ${tagCounts.general}`
+    `- **Verwirrung / Confusion**: ${tagCounts.confusion}` +
+      `\n- **Bugs**: ${tagCounts.bug}` +
+      `\n- **Ideen / Feature Requests**: ${tagCounts.idea}` +
+      `\n- **Nutzerzitate (Quotes)**: ${tagCounts.quote}` +
+      `\n- **Allgemeine Notizen**: ${tagCounts.general}`
   );
   lines.push("");
 
   // Developer Action Items / Issues Section
   const bugsAndConfusion = notes.filter((n) => n.tag === "bug" || n.tag === "confusion");
   if (bugsAndConfusion.length > 0) {
-    lines.push("## ⚡ Handlungsbedarf für Entwickler (Action Items)");
+    lines.push("## Handlungsbedarf für Entwickler (Action Items)");
     lines.push("");
     lines.push("Aus den Notizen identifizierte Reibungspunkte und Fehler:");
     lines.push("");
     for (const item of bugsAndConfusion) {
-      const tagLabel = item.tag === "bug" ? "🐛 BUG" : "❓ CONFUSION";
+      const tagLabel = item.tag === "bug" ? "BUG" : "CONFUSION";
       const relTime = formatRelativeTime(startTime, item.timestamp);
       lines.push(`- [ ] **[${tagLabel}]** \`${relTime}\`: ${item.content}`);
     }
@@ -101,7 +101,7 @@ export function exportToMarkdown(session: InterviewSession): string {
   }
 
   // Notes Section
-  lines.push("## 📝 Alle Notizen");
+  lines.push("## Alle Notizen");
   lines.push("");
   if (notes.length === 0) {
     lines.push("_Keine Notizen in dieser Session erfasst._");
@@ -118,30 +118,30 @@ export function exportToMarkdown(session: InterviewSession): string {
   lines.push("");
 
   // Chronological Timeline
-  lines.push("## ⏱️ Chronologische Timeline (Klicks, Routes & Notizen)");
+  lines.push("## Chronologische Timeline (Klicks, Routes & Notizen)");
   lines.push("");
   lines.push("| Zeit | Typ | Details |");
   lines.push("| :--- | :--- | :--- |");
-  lines.push(`| \`+00:00\` | 🚀 **Start** | Session gestartet: *${session.title}* |`);
+  lines.push(`| \`+00:00\` | **Start** | Session gestartet: *${session.title}* |`);
 
   for (const item of timeline) {
     const relTime = formatRelativeTime(startTime, item.timestamp);
     if (item.kind === "note") {
       const tag = (item.data.tag || "general").toUpperCase();
       const text = item.data.content.replace(/\|/g, "\\|").replace(/\n/g, " ");
-      lines.push(`| \`${relTime}\` | 💬 **NOTE [${tag}]** | "${text}" |`);
+      lines.push(`| \`${relTime}\` | **NOTE [${tag}]** | "${text}" |`);
     } else {
       const ev = item.data;
       if (ev.type === "route") {
-        lines.push(`| \`${relTime}\` | 🧭 **Route** | Navigation zu \`${ev.path}\` |`);
+        lines.push(`| \`${relTime}\` | **Route** | Navigation zu \`${ev.path}\` |`);
       } else if (ev.type === "click") {
         const textSnippet = ev.text ? ` ("${ev.text.replace(/\|/g, "\\|")}")` : "";
-        lines.push(`| \`${relTime}\` | 👆 **Click** | \`${ev.selector}\`${textSnippet} |`);
+        lines.push(`| \`${relTime}\` | **Click** | \`${ev.selector}\`${textSnippet} |`);
       }
     }
   }
 
-  lines.push(`| \`+${durationStr}\` | 🏁 **Ende** | Session beendet |`);
+  lines.push(`| \`+${durationStr}\` | **Ende** | Session beendet |`);
   lines.push("");
 
   return lines.join("\n");

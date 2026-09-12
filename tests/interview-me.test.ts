@@ -100,7 +100,7 @@ describe("interview-me export utilities", () => {
     expect(md).toContain("FDI Zahnschema");
     expect(md).toContain("01:15");
     // Action Items / Confusion
-    expect(md).toContain("❓ CONFUSION");
+    expect(md).toContain("CONFUSION");
     expect(md).toContain("Konnte Karies-Status nicht sofort finden");
     // Notes Table
     expect(md).toContain("Tastatur-Navigation wäre schneller");

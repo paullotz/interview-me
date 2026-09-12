@@ -19,38 +19,33 @@ export interface InterviewOverlayProps {
   position?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
 }
 
-const TAG_CONFIG: Record<NoteTag, { label: string; icon: string; bg: string; color: string; border: string }> = {
+const TAG_CONFIG: Record<NoteTag, { label: string; bg: string; color: string; border: string }> = {
   confusion: {
     label: "Confusion",
-    icon: "❓",
     bg: "#fef3c7",
     color: "#92400e",
     border: "#fcd34d",
   },
   bug: {
     label: "Bug",
-    icon: "🐛",
     bg: "#fee2e2",
     color: "#991b1b",
     border: "#fca5a5",
   },
   idea: {
     label: "Idee",
-    icon: "💡",
     bg: "#ecfdf5",
     color: "#065f46",
     border: "#6ee7b7",
   },
   quote: {
     label: "Quote",
-    icon: "💬",
     bg: "#f3e8ff",
     color: "#6b21a8",
     border: "#d8b4fe",
   },
   general: {
     label: "Notiz",
-    icon: "📝",
     bg: "#f1f5f9",
     color: "#334155",
     border: "#cbd5e1",
@@ -219,7 +214,6 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
             </>
           ) : (
             <>
-              <span style={{ fontSize: "14px" }}>🎙️</span>
               <span>Interview-Tool</span>
               {sessions.length > 0 && (
                 <span
@@ -297,7 +291,6 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                 </>
               ) : (
                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span style={{ fontSize: "16px" }}>🎙️</span>
                   <span style={{ fontWeight: 700, fontSize: "14px", color: "#0f172a" }}>
                     Interview-Dev-Tool
                   </span>
@@ -398,7 +391,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     </label>
                     {noteSuccessToast && (
                       <span style={{ fontSize: "11px", color: "#16a34a", fontWeight: 600 }}>
-                        ✓ Notiz gespeichert!
+                        Notiz gespeichert
                       </span>
                     )}
                   </div>
@@ -425,7 +418,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                             transition: "all 0.15s ease",
                           }}
                         >
-                          {cfg.icon} {cfg.label}
+                          {cfg.label}
                         </button>
                       );
                     })}
@@ -551,7 +544,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                                   color: cfg.color,
                                 }}
                               >
-                                {cfg.icon} {cfg.label}
+                                {cfg.label}
                               </span>
                               <span style={{ fontSize: "10px", color: "#94a3b8" }}>
                                 {formatRelativeTime(session.startTime, n.timestamp)}
@@ -582,7 +575,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       cursor: "pointer",
                     }}
                   >
-                    ⏹ Session beenden & Exportieren
+                    Session beenden & Exportieren
                   </button>
 
                   <button
@@ -600,7 +593,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       cursor: "pointer",
                     }}
                   >
-                    {isPaused ? "▶ Weiter" : "⏸ Pause"}
+                    {isPaused ? "Weiter" : "Pause"}
                   </button>
                 </div>
               </div>
@@ -683,7 +676,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     lineHeight: "1.4",
                   }}
                 >
-                  🔒 <strong>Local-First & Privacy:</strong> Daten werden ausschließlich in deinem Browser
+                  <strong>Local-First & Privacy:</strong> Daten werden ausschließlich in deinem Browser
                   gespeichert. Klicks und Routen werden automatisch mitgeloggt.
                 </div>
 
@@ -702,11 +695,9 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "6px",
                   }}
                 >
-                  <span>⏺</span>
-                  <span>Interview Session Starten</span>
+                  Interview Session Starten
                 </button>
               </form>
             )}
@@ -731,7 +722,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           padding: 0,
                         }}
                       >
-                        ← Zurück zur Liste
+                        Zurück zur Liste
                       </button>
                       <button
                         type="button"
@@ -749,7 +740,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           fontSize: "11px",
                         }}
                       >
-                        🗑 Löschen
+                        Löschen
                       </button>
                     </div>
 
@@ -790,7 +781,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           cursor: "pointer",
                         }}
                       >
-                        📄 Export .MD
+                        Export Markdown (.md)
                       </button>
                       <button
                         type="button"
@@ -814,7 +805,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           cursor: "pointer",
                         }}
                       >
-                        📦 Export .JSON
+                        Export JSON (.json)
                       </button>
                     </div>
 
@@ -860,7 +851,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                                     marginRight: "6px",
                                   }}
                                 >
-                                  {cfg.icon} {cfg.label}
+                                  {cfg.label}
                                 </span>
                                 <span>{n.content}</span>
                               </div>
@@ -916,7 +907,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                                 {s.events.length} Events
                               </div>
                             </div>
-                            <span style={{ fontSize: "12px", color: "#2563eb", fontWeight: 600 }}>Öffnen →</span>
+                            <span style={{ fontSize: "12px", color: "#2563eb", fontWeight: 600 }}>Öffnen</span>
                           </div>
                         ))}
                       </div>

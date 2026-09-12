@@ -8,19 +8,19 @@ Capture real behavioral insights from user interviews inside your Next.js applic
 
 ## Features
 
-- 🎙️ **Zero-Friction Interview Recording**: Start and stop sessions with a single click.
-- 👆 **Automatic Interaction Capture**: Tracks button clicks, links, form interactions, and route changes with clean semantic selectors.
-- 📝 **Live Contextual Notes**: Jot down observations, quotes, and pain points tagged with:
-  - ❓ `confusion`
-  - 🐛 `bug`
-  - 💡 `idea`
-  - 💬 `quote`
-  - 📝 `general`
-- 🔒 **Local-First & Privacy-Focused**: Stored in browser IndexedDB with automatic localStorage fallback.
-- 📦 **One-Click Dev Handoff**:
+- **Zero-Friction Interview Recording**: Start and stop sessions with a single click.
+- **Automatic Interaction Capture**: Tracks button clicks, links, form interactions, and route changes with clean semantic selectors.
+- **Live Contextual Notes**: Jot down observations, quotes, and pain points tagged with:
+  - `confusion`
+  - `bug`
+  - `idea`
+  - `quote`
+  - `general`
+- **Local-First & Privacy-Focused**: Stored in browser IndexedDB with automatic localStorage fallback.
+- **One-Click Dev Handoff**:
   - **Markdown (`.md`)**: Human-readable report with metadata, note categorization, action items for developers, and a unified chronological timeline.
   - **JSON (`.json`)**: Machine-readable format ready for Jira, Linear, GitHub Issues, or AI spec generation.
-- 🛡️ **Dev-Only by Default**: Automatically hidden in production builds (`process.env.NODE_ENV === "production"`), or toggleable via `?interview=true`.
+- **Dev-Only by Default**: Automatically hidden in production builds (`process.env.NODE_ENV === "production"`), or toggleable via `?interview=true`.
 
 ---
 
