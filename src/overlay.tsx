@@ -79,6 +79,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
     sessions,
     loadSessions,
     deleteSession,
+    clearAllSessions,
   } = useInterviewSession();
 
   const [isClient, setIsClient] = useState(false);
@@ -477,14 +478,18 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       <button
                         type="button"
                         onClick={async () => {
-                          if (window.confirm("Are you sure you want to delete this session?")) {
+                          if (
+                            window.confirm(
+                              `Are you sure you want to delete session "${selectedSessionForView.title}"?`
+                            )
+                          ) {
                             await deleteSession(selectedSessionForView.id);
                             setSelectedSessionForView(null);
                           }
                         }}
-                        className="text-[11px] font-medium text-red-600 hover:text-red-800 transition-colors cursor-pointer"
+                        className="text-xs font-semibold text-red-600 hover:text-red-800 hover:bg-red-50 px-2 py-1 rounded transition-colors cursor-pointer"
                       >
-                        Delete
+                        Delete session
                       </button>
                     </div>
 
@@ -576,14 +581,36 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       </div>
                     ) : (
                       <div className="flex flex-col gap-2">
+                        <div className="flex justify-between items-center px-0.5 mb-1">
+                          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                            Saved ({sessions.length})
+                          </span>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (
+                                window.confirm(
+                                  "Are you sure you want to delete ALL saved interview sessions? This cannot be undone."
+                                )
+                              ) {
+                                await clearAllSessions();
+                              }
+                            }}
+                            className="text-[11px] font-medium text-red-600 hover:text-red-800 hover:underline transition-colors cursor-pointer"
+                          >
+                            Clear all
+                          </button>
+                        </div>
                         {sessions.map((s) => (
                           <div
                             key={s.id}
-                            className="p-3 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex justify-between items-center cursor-pointer transition-colors shadow-xs"
-                            onClick={() => setSelectedSessionForView(s)}
+                            className="p-3 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex justify-between items-center transition-colors shadow-xs group"
                           >
-                            <div>
-                              <div className="font-semibold text-xs text-slate-900">
+                            <div
+                              className="flex-1 min-w-0 cursor-pointer pr-2"
+                              onClick={() => setSelectedSessionForView(s)}
+                            >
+                              <div className="font-semibold text-xs text-slate-900 truncate">
                                 {s.title}
                               </div>
                               <div className="text-[11px] text-slate-500 mt-0.5">
@@ -591,7 +618,27 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                                 {s.events.length} events
                               </div>
                             </div>
-                            <span className="text-xs text-blue-600 font-semibold">Open</span>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                type="button"
+                                onClick={async (e) => {
+                                  e.stopPropagation();
+                                  if (window.confirm(`Delete session "${s.title}"?`)) {
+                                    await deleteSession(s.id);
+                                  }
+                                }}
+                                className="px-2 py-1 text-[11px] font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                              >
+                                Delete
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedSessionForView(s)}
+                                className="px-2.5 py-1 text-xs font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors cursor-pointer"
+                              >
+                                Open
+                              </button>
+                            </div>
                           </div>
                         ))}
                       </div>

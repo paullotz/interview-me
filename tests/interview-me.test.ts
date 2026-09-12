@@ -176,3 +176,47 @@ describe("interview-me tracker selectors", () => {
     expect(selector).toBe("#main-nav-link");
   });
 });
+
+describe("interview-me session storage", () => {
+  it("saves, retrieves, deletes, and clears sessions", async () => {
+    const { saveSession, getSession, getAllSessions, deleteSession, clearSessions } = await import(
+      "../src/storage"
+    );
+
+    await clearSessions();
+    expect(await getAllSessions()).toHaveLength(0);
+
+    const s1: InterviewSession = {
+      id: "session-1",
+      title: "First Session",
+      startTime: 1000,
+      events: [],
+      notes: [],
+    };
+    const s2: InterviewSession = {
+      id: "session-2",
+      title: "Second Session",
+      startTime: 2000,
+      events: [],
+      notes: [],
+    };
+
+    await saveSession(s1);
+    await saveSession(s2);
+
+    let all = await getAllSessions();
+    expect(all).toHaveLength(2);
+    expect(all[0].id).toBe("session-2"); // sorted by startTime descending
+
+    // Delete s1
+    await deleteSession("session-1");
+    all = await getAllSessions();
+    expect(all).toHaveLength(1);
+    expect(all[0].id).toBe("session-2");
+    expect(await getSession("session-1")).toBeNull();
+
+    // Clear all
+    await clearSessions();
+    expect(await getAllSessions()).toHaveLength(0);
+  });
+});
