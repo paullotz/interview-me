@@ -187,7 +187,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
         >
           {isRecording ? (
             <>
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white" />
               <span>REC {formatDuration(elapsedMs)}</span>
               {session && (
                 <span className="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
@@ -220,7 +220,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
             <div className="flex items-center gap-2 min-w-0">
               {isRecording ? (
                 <>
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shrink-0" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0" />
                   <div className="min-w-0">
                     <div className="text-xs font-bold text-red-900 tracking-wide">
                       RECORDING ACTIVE ({formatDuration(elapsedMs)})
