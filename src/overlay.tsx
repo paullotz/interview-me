@@ -55,6 +55,16 @@ const TAG_CONFIG: Record<
   },
 };
 
+const POSITION_STYLES: Record<
+  "bottom-right" | "bottom-left" | "top-right" | "top-left",
+  React.CSSProperties
+> = {
+  "bottom-right": { bottom: "20px", right: "20px" },
+  "bottom-left": { bottom: "20px", left: "20px" },
+  "top-right": { top: "20px", right: "20px" },
+  "top-left": { top: "20px", left: "20px" },
+};
+
 export function InterviewOverlay({ enabled, position = "bottom-right" }: InterviewOverlayProps) {
   const {
     session,
@@ -94,7 +104,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
   const shouldRender = useMemo(() => {
     if (typeof enabled === "boolean") return enabled;
     if (typeof window === "undefined") return false;
-    const isDev = process.env.NODE_ENV !== "production";
+    const isDev = typeof process !== "undefined" && process?.env?.NODE_ENV !== "production";
     const hasQuery = new URLSearchParams(window.location.search).get("interview") === "true";
     const hasStorage = window.localStorage.getItem("interview-me:enabled") === "true";
     return isDev || hasQuery || hasStorage;
@@ -158,6 +168,11 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
   return (
     <div
       data-interview-ui="true"
+      style={{
+        position: "fixed",
+        zIndex: 999999,
+        ...POSITION_STYLES[position],
+      }}
       className={`interview-me-root fixed z-[999999] font-sans text-xs text-slate-800 antialiased ${positionClass}`}
     >
       {/* Minimized Floating Pill */}
