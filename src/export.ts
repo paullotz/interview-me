@@ -85,6 +85,24 @@ export function exportToMarkdown(session: InterviewSession): string {
   );
   lines.push("");
 
+  // AI Agent Instructions Section
+  lines.push("## Instructions for AI Agents");
+  lines.push("");
+  lines.push("How to interpret and work with this session file:");
+  lines.push(
+    "1. **Analyze Priorities**: Review the \"Developer Action Items\" below. Treat `[BUG]` items as high-priority functional fixes, and `[CONFUSION]` items as UX/clarity improvements."
+  );
+  lines.push(
+    "2. **Inspect Context in Timeline**: Check the \"Chronological Timeline\" section to trace what the user did right before a note was created. Preceding route changes and click events reveal the exact user workflow and screen context."
+  );
+  lines.push(
+    "3. **Locate Code via Selectors & Routes**: Search the codebase for the recorded route paths and click selectors (e.g. `[data-testid=\"...\"]`, `[data-interview-highlight=\"...\"]`, or element IDs) to pinpoint the exact components."
+  );
+  lines.push(
+    "4. **Resolve Issues**: Implement fixes or refactors that address the root cause of user hesitation or errors. Respect direct user quotes (`[QUOTE]`) to stay aligned with user expectations."
+  );
+  lines.push("");
+
   // Developer Action Items / Issues Section
   const bugsAndConfusion = notes.filter((n) => n.tag === "bug" || n.tag === "confusion");
   if (bugsAndConfusion.length > 0) {

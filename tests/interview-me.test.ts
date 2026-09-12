@@ -99,6 +99,9 @@ describe("interview-me export utilities", () => {
     expect(md).toContain("Assistentin Anna");
     expect(md).toContain("FDI Zahnschema");
     expect(md).toContain("01:15");
+    // AI Agent Instructions
+    expect(md).toContain("Instructions for AI Agents");
+    expect(md).toContain("Analyze Priorities");
     // Action Items / Confusion
     expect(md).toContain("CONFUSION");
     expect(md).toContain("Konnte Karies-Status nicht sofort finden");
