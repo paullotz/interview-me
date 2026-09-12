@@ -25,10 +25,10 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          # cache disabled: standalone has no pnpm-lock.yaml
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm --filter @paullotz/interview-me typecheck || pnpm typecheck
       - run: pnpm --filter @paullotz/interview-me test || pnpm test
       - run: pnpm --filter @paullotz/interview-me build || pnpm build
