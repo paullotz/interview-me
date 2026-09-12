@@ -1,0 +1,8 @@
+# never publish
+tests/
+tsconfig.json
+tsconfig.build.json
+.github/
+.pi/
+*.tsbuildinfo
+.DS_Store

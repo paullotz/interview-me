@@ -1,31 +1,92 @@
 {
   "name": "@paullotz/interview-me",
   "version": "1.0.0",
-  "description": "Local-first user interview tool and instructions generator",
-  "author": "Paul Lotz",
+  "description": "Local-first user interview recorder for Next.js. Capture clicks, routes and tagged notes in the browser, export Markdown/JSON for dev handoff. No backend, no tracking.",
+  "keywords": [
+    "react",
+    "nextjs",
+    "next.js",
+    "user-research",
+    "usability-testing",
+    "user-interview",
+    "ux",
+    "dx",
+    "local-first",
+    "privacy",
+    "dev-tools",
+    "ai",
+    "handoff"
+  ],
+  "author": "Paul Lotz <paul@paullotz.com> (https://paullotz.com)",
   "license": "MIT",
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paullotz/interview-me.git"
+  },
+  "homepage": "https://github.com/paullotz/interview-me#readme",
+  "bugs": {
+    "url": "https://github.com/paullotz/interview-me/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/paullotz"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./types": "./src/types.ts",
-    "./storage": "./src/storage.ts",
-    "./export": "./src/export.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "import": "./dist/storage.js"
+    },
+    "./export": {
+      "types": "./dist/export.d.ts",
+      "import": "./dist/export.js"
+    }
   },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.19.43",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.0.0",
     "vitest": "^2.1.8"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "pnpm run build",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "release": "pnpm run build && pnpm test && npm publish --provenance --access public",
+    "changeset": "echo 'Use: pnpm version patch|minor|major && git push --follow-tags'",
+    "prepare": "pnpm run build"
   }
 }

@@ -1,0 +1,42 @@
+name: Release to npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "npm dist-tag (latest, next, beta)"
+        required: false
+        default: "latest"
+
+permissions:
+  contents: read
+  id-token: write # for npm provenance / OIDC
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @paullotz/interview-me typecheck || pnpm typecheck
+      - run: pnpm --filter @paullotz/interview-me test || pnpm test
+      - run: pnpm --filter @paullotz/interview-me build || pnpm build
+      # npm 11.5.1+ required for provenance, setup-node already handles it
+      - run: |
+          TAG="${{ inputs.tag || 'latest' }}"
+          # if triggered by version tag, use latest
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then TAG="latest"; fi
+          pnpm --filter @paullotz/interview-me publish --provenance --access public --tag "$TAG" --no-git-checks || npm publish --provenance --access public --tag "$TAG"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
