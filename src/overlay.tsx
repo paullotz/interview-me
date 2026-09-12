@@ -33,7 +33,7 @@ const TAG_CONFIG: Record<NoteTag, { label: string; bg: string; color: string; bo
     border: "#fca5a5",
   },
   idea: {
-    label: "Idee",
+    label: "Idea",
     bg: "#ecfdf5",
     color: "#065f46",
     border: "#6ee7b7",
@@ -45,7 +45,7 @@ const TAG_CONFIG: Record<NoteTag, { label: string; bg: string; color: string; bo
     border: "#d8b4fe",
   },
   general: {
-    label: "Notiz",
+    label: "Note",
     bg: "#f1f5f9",
     color: "#334155",
     border: "#cbd5e1",
@@ -208,7 +208,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     fontSize: "11px",
                   }}
                 >
-                  {session.notes.length} Notizen
+                  {session.notes.length} notes
                 </span>
               )}
             </>
@@ -273,7 +273,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   />
                   <div>
                     <div style={{ fontWeight: 700, fontSize: "13px", color: "#991b1b" }}>
-                      AUFNAHME AKTIV ({formatDuration(elapsedMs)})
+                      RECORDING ACTIVE ({formatDuration(elapsedMs)})
                     </div>
                     <div
                       style={{
@@ -302,7 +302,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
               <button
                 type="button"
                 onClick={() => setIsExpanded(false)}
-                title="Minimieren"
+                title="Minimize"
                 style={{
                   background: "none",
                   border: "none",
@@ -346,7 +346,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   cursor: "pointer",
                 }}
               >
-                + Neue Session
+                + New Session
               </button>
               <button
                 type="button"
@@ -366,7 +366,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   cursor: "pointer",
                 }}
               >
-                Gespeicherte Sessions ({sessions.length})
+                Saved Sessions ({sessions.length})
               </button>
             </div>
           )}
@@ -387,11 +387,11 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     }}
                   >
                     <label style={{ fontWeight: 600, fontSize: "12px", color: "#334155" }}>
-                      Schnellnotiz hinzufügen:
+                      Add quick note:
                     </label>
                     {noteSuccessToast && (
                       <span style={{ fontSize: "11px", color: "#16a34a", fontWeight: 600 }}>
-                        Notiz gespeichert
+                        Note saved
                       </span>
                     )}
                   </div>
@@ -428,7 +428,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     value={noteContent}
                     onChange={(e) => setNoteContent(e.target.value)}
                     onKeyDown={handleKeyDownNote}
-                    placeholder="Was beobachtest du? (Drücke Enter zum Speichern)"
+                    placeholder="What did you observe? (Press Enter to save)"
                     rows={3}
                     style={{
                       width: "100%",
@@ -445,7 +445,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
                   <div style={{ display: "flex", justifyContent: "space-between", marginTop: "6px" }}>
                     <span style={{ fontSize: "11px", color: "#94a3b8" }}>
-                      Tipp: Enter = Speichern, Shift+Enter = Zeilenumbruch
+                      Tip: Enter = save, Shift+Enter = line break
                     </span>
                     <button
                       type="button"
@@ -462,7 +462,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                         cursor: noteContent.trim() ? "pointer" : "default",
                       }}
                     >
-                      + Notiz
+                      + Note
                     </button>
                   </div>
                 </div>
@@ -481,10 +481,10 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                   }}
                 >
                   <div>
-                    Klicks & Routes: <strong>{session.events.length}</strong>
+                    Clicks & Routes: <strong>{session.events.length}</strong>
                   </div>
                   <div>
-                    Notizen: <strong>{session.notes.length}</strong>
+                    Notes: <strong>{session.notes.length}</strong>
                   </div>
                 </div>
 
@@ -501,7 +501,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                         marginBottom: "6px",
                       }}
                     >
-                      Aktuelle Notizen ({session.notes.length})
+                      Current Notes ({session.notes.length})
                     </div>
                     <div
                       style={{
@@ -575,7 +575,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       cursor: "pointer",
                     }}
                   >
-                    Session beenden & Exportieren
+                    Finish & Export Session
                   </button>
 
                   <button
@@ -593,7 +593,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                       cursor: "pointer",
                     }}
                   >
-                    {isPaused ? "Weiter" : "Pause"}
+                    {isPaused ? "Resume" : "Pause"}
                   </button>
                 </div>
               </div>
@@ -604,13 +604,13 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
               <form onSubmit={handleStart} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 <div>
                   <label style={{ display: "block", fontWeight: 600, fontSize: "12px", marginBottom: "4px" }}>
-                    Session-Titel (optional)
+                    Session Title (optional)
                   </label>
                   <input
                     type="text"
                     value={startTitle}
                     onChange={(e) => setStartTitle(e.target.value)}
-                    placeholder="z.B. Feedback Zahnarzt Praxis-Setup"
+                    placeholder="e.g. Checkout flow usability test"
                     style={{
                       width: "100%",
                       boxSizing: "border-box",
@@ -625,13 +625,13 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
                 <div>
                   <label style={{ display: "block", fontWeight: 600, fontSize: "12px", marginBottom: "4px" }}>
-                    Nutzer / Pseudonym (optional)
+                    User / Pseudonym (optional)
                   </label>
                   <input
                     type="text"
                     value={startUser}
                     onChange={(e) => setStartUser(e.target.value)}
-                    placeholder="z.B. Dr. Müller / Ordinationsassistenz"
+                    placeholder="e.g. Dr. Miller / Clinic Assistant"
                     style={{
                       width: "100%",
                       boxSizing: "border-box",
@@ -652,7 +652,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     type="text"
                     value={startFeature}
                     onChange={(e) => setStartFeature(e.target.value)}
-                    placeholder="z.B. Zahnschema & Honorarnote"
+                    placeholder="e.g. Appointment Booking Flow"
                     style={{
                       width: "100%",
                       boxSizing: "border-box",
@@ -676,8 +676,8 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     lineHeight: "1.4",
                   }}
                 >
-                  <strong>Local-First & Privacy:</strong> Daten werden ausschließlich in deinem Browser
-                  gespeichert. Klicks und Routen werden automatisch mitgeloggt.
+                  <strong>Local-First & Privacy:</strong> Data is stored entirely inside your browser.
+                  Clicks and route changes are logged automatically.
                 </div>
 
                 <button
@@ -697,7 +697,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     justifyContent: "center",
                   }}
                 >
-                  Interview Session Starten
+                  Start Interview Session
                 </button>
               </form>
             )}
@@ -722,12 +722,12 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           padding: 0,
                         }}
                       >
-                        Zurück zur Liste
+                        Back to list
                       </button>
                       <button
                         type="button"
                         onClick={async () => {
-                          if (window.confirm("Diese Session wirklich löschen?")) {
+                          if (window.confirm("Are you sure you want to delete this session?")) {
                             await deleteSession(selectedSessionForView.id);
                             setSelectedSessionForView(null);
                           }
@@ -740,7 +740,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           fontSize: "11px",
                         }}
                       >
-                        Löschen
+                        Delete
                       </button>
                     </div>
 
@@ -749,7 +749,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                         {selectedSessionForView.title}
                       </div>
                       <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
-                        {new Date(selectedSessionForView.startTime).toLocaleString("de-AT")} • Dauer:{" "}
+                        {new Date(selectedSessionForView.startTime).toLocaleString("en-US")} • Duration:{" "}
                         {formatDuration(
                           (selectedSessionForView.endTime ?? selectedSessionForView.startTime) -
                             selectedSessionForView.startTime
@@ -812,10 +812,10 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                     {/* Notes in this session */}
                     <div>
                       <div style={{ fontWeight: 600, fontSize: "12px", marginBottom: "6px" }}>
-                        Notizen ({selectedSessionForView.notes.length})
+                        Notes ({selectedSessionForView.notes.length})
                       </div>
                       {selectedSessionForView.notes.length === 0 ? (
-                        <div style={{ fontSize: "12px", color: "#94a3b8" }}>Keine Notizen erfasst.</div>
+                        <div style={{ fontSize: "12px", color: "#94a3b8" }}>No notes recorded.</div>
                       ) : (
                         <div
                           style={{
@@ -863,7 +863,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
 
                     {/* Events count */}
                     <div style={{ fontSize: "11px", color: "#64748b" }}>
-                      Erfasste Interaktionen: {selectedSessionForView.events.length} Events (Routen & Klicks).
+                      Captured interactions: {selectedSessionForView.events.length} events (routes & clicks).
                     </div>
                   </div>
                 ) : (
@@ -878,7 +878,7 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                           fontSize: "12px",
                         }}
                       >
-                        Noch keine Interviews gespeichert. Starte eine Session, um Klicks und Notizen aufzuzeichnen!
+                        No interviews saved yet. Start a session to record clicks and notes!
                       </div>
                     ) : (
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -903,11 +903,11 @@ export function InterviewOverlay({ enabled, position = "bottom-right" }: Intervi
                                 {s.title}
                               </div>
                               <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
-                                {new Date(s.startTime).toLocaleDateString("de-AT")} • {s.notes.length} Notizen •{" "}
-                                {s.events.length} Events
+                                {new Date(s.startTime).toLocaleDateString("en-US")} • {s.notes.length} notes •{" "}
+                                {s.events.length} events
                               </div>
                             </div>
-                            <span style={{ fontSize: "12px", color: "#2563eb", fontWeight: 600 }}>Öffnen</span>
+                            <span style={{ fontSize: "12px", color: "#2563eb", fontWeight: 600 }}>Open</span>
                           </div>
                         ))}
                       </div>

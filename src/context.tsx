@@ -121,7 +121,7 @@ export function InterviewProvider({ children }: { children: React.ReactNode }) {
       const startTime = Date.now();
       const title =
         options?.title?.trim() ||
-        `Interview Session - ${new Date(startTime).toLocaleDateString("de-AT", {
+        `Interview Session - ${new Date(startTime).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
           hour: "2-digit",

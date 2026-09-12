@@ -108,7 +108,8 @@ describe("interview-me export utilities", () => {
     expect(md).toContain("+00:05");
     expect(md).toContain("/dental-chart");
     expect(md).toContain("button#tooth-18");
-    expect(md).toContain("Ende");
+    expect(md).toContain("End");
+    expect(md).toContain("Session ended");
   });
 });
 
