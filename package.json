@@ -1,7 +1,7 @@
 {
   "name": "@paullotz/interview-me",
-  "version": "0.1.0",
-  "description": "Local-first user interview dev tool and handoff generator for Next.js",
+  "version": "1.0.0",
+  "description": "Local-first user interview tool and instructions generator",
   "author": "Paul Lotz",
   "license": "MIT",
   "type": "module",
