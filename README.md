@@ -13,20 +13,6 @@ Capture real behavioral insights from user interviews inside your Next.js applic
 
 ---
 
-## Why interview-me over maze, sprig, posthog replay?
-
-| | interview-me | Maze / Sprig | PostHog replay |
-|---|---|---|---|
-| Setup | 3 lines, zero backend | Cloud account + SDK | Cloud account + SDK |
-| Data residency | 100% browser (IndexedDB) | US/EU cloud | Cloud |
-| Cost for 10 interviews | Free | $99+ | $0 but noisy |
-| Export | Markdown with AI instructions + JSON for Linear/Jira | Figma/video | Session replay only |
-| Works in dev without config | Yes, dev-only by default | No | No |
-
-Built for teams that want **signal, not surveillance**.
-
----
-
 ## Features
 
 - **Zero-Friction Interview Recording**: Start and stop sessions with a single click.
